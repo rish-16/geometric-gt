@@ -60,7 +60,7 @@ def hyperbolicity_sample(G, num_samples=5000):
             hyps.append((s[-1] - s[-2]) / 2)
         except Exception as e:
             print (e)
-    
+
     # print('Time for hyp: ', time.time() - curr_time)
     return max(hyps)
 
@@ -230,7 +230,7 @@ def convert_pyg_to_nx(data):
     g = to_networkx(data, node_attrs=["x"], edge_attrs=["edge_attr"])
     return nx.from_scipy_sparse_matrix(nx.adjacency_matrix(g, nodelist=list(range(data.x.size(0)))))
 
-N_graphs = 50_000
+N_graphs = 100
 sum_hyp = 0
 start = time.time()
 j = 0
@@ -239,16 +239,16 @@ while j < N_graphs:
     ridx = random.randint(0, len(dataset))
     if ridx not in done_dict:
         graph = dataset[ridx]
-        adj = convert_pyg_to_nx(graph)
-        
-        hyp = hyperbolicity_sample(adj)
-        sum_hyp += hyp
-        
-        done_dict.add(ridx)
-        j += 1
+        if graph.x.size() > 5: # more than 4 nodes
+            adj = convert_pyg_to_nx(graph)
+            hyp = hyperbolicity_sample(adj)
+            sum_hyp += hyp
+            
+            done_dict.add(ridx)
+            j += 1
     
 end = time.time()    
-avg_hyp_zinc = sum_hyp / N_graphs    
+avg_hyp_pcq = sum_hyp / N_graphs    
 
-print ("Average hyp for PCQM4Mv2: ", avg_hyp_zinc)
+print ("Average hyp for PCQM4Mv2: ", avg_hyp_pcq)
 print ("Time taken", end - start)
