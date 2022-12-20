@@ -47,7 +47,7 @@ from pprint import pprint
 
 
 class PygPCQM4Mv2Dataset(InMemoryDataset):
-    def __init__(self, root='../datasets/', smiles2graph=smiles2graph, transform=None, pre_transform=None):
+    def __init__(self, root='../../../urop/OGB-Benchmarking/datasets/', smiles2graph=smiles2graph, transform=None, pre_transform=None):
         """
             Pytorch Geometric PCQM4Mv2 dataset object
                 - root (str): the dataset folder will be located at root/pcqm4m_kddcup2021
