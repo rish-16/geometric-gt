@@ -38,7 +38,7 @@ from torch_geometric import seed_everything
 import torch_geometric as pyg
 from pprint import pprint
 
-def hyperbolicity_sample(G, num_samples=5000):
+def hyperbolicity_sample(G, num_samples=10000):
     curr_time = time.time()
     hyps = []
     # for i in tqdm(range(num_samples)):
