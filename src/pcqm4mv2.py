@@ -37,6 +37,31 @@ from torch_geometric import seed_everything
 import torch_geometric as pyg
 from pprint import pprint
 
+def hyperbolicity_sample(G, num_samples=5000):
+    curr_time = time.time()
+    hyps = []
+    # for i in tqdm(range(num_samples)):
+    for i in range(num_samples):
+        curr_time = time.time()
+        node_tuple = np.random.choice(G.nodes(), 4, replace=False)
+        s = []
+        try:
+            d01 = nx.shortest_path_length(G, source=node_tuple[0], target=node_tuple[1], weight=None)
+            d23 = nx.shortest_path_length(G, source=node_tuple[2], target=node_tuple[3], weight=None)
+            d02 = nx.shortest_path_length(G, source=node_tuple[0], target=node_tuple[2], weight=None)
+            d13 = nx.shortest_path_length(G, source=node_tuple[1], target=node_tuple[3], weight=None)
+            d03 = nx.shortest_path_length(G, source=node_tuple[0], target=node_tuple[3], weight=None)
+            d12 = nx.shortest_path_length(G, source=node_tuple[1], target=node_tuple[2], weight=None)
+            s.append(d01 + d23)
+            s.append(d02 + d13)
+            s.append(d03 + d12)
+            s.sort()
+            hyps.append((s[-1] - s[-2]) / 2)
+        except Exception as e:
+            print (e)
+    
+    # print('Time for hyp: ', time.time() - curr_time)
+    return max(hyps)
 
 class PygPCQM4Mv2Dataset(InMemoryDataset):
     def __init__(self, root='../../../urop/OGB-Benchmarking/datasets/', smiles2graph=smiles2graph, transform=None, pre_transform=None):
