@@ -230,7 +230,7 @@ def convert_pyg_to_nx(data):
     g = to_networkx(data, node_attrs=["x"], edge_attrs=["edge_attr"])
     return nx.from_scipy_sparse_matrix(nx.adjacency_matrix(g, nodelist=list(range(data.x.size(0)))))
 
-N_graphs = 10
+N_graphs = 50_000
 sum_hyp = 0
 start = time.time()
 j = 0
