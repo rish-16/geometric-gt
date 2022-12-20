@@ -8,6 +8,7 @@ from torch_geometric.utils import to_dense_adj, to_networkx
 import networkx as nx
 
 import os, logging, datetime, shutil, time, random
+import numpy as np
 import os.path as osp
 from ogb.utils import smiles2graph
 from ogb.utils.torch_util import replace_numpy_with_torchtensor
