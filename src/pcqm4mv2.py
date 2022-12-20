@@ -197,7 +197,7 @@ def custom_set_run_dir(cfg, run_id):
         makedirs_rm_exist(cfg.run_dir)    
 
 if __name__ == '__main__':
-    dataset = PygPCQM4Mv2Dataset(root='../../../urop/OGB-Benchmarking/datasets/')
+    dataset = PygPCQM4Mv2Dataset(root='../../../urop/OGB-benchmarking/datasets/')
     train_loader = pyg.loader.DataLoader(dataset, batch_size=256, shuffle=False)
     i = 100
     print(dataset)
