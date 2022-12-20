@@ -196,14 +196,41 @@ def custom_set_run_dir(cfg, run_id):
     else:
         makedirs_rm_exist(cfg.run_dir)    
 
-if __name__ == '__main__':
-    dataset = PygPCQM4Mv2Dataset(root='../../../urop/OGB-benchmarking/datasets/')
-    train_loader = pyg.loader.DataLoader(dataset, batch_size=256, shuffle=False)
-    i = 100
-    print(dataset)
-    print(dataset.data.edge_index)
-    print(dataset.data.edge_index.shape)
-    print(dataset.data.x.shape)
-    print(dataset[i])
-    print(dataset[i].y)
-    print(dataset.get_idx_split())
+dataset = PygPCQM4Mv2Dataset(root='../../../urop/OGB-benchmarking/datasets/')
+train_loader = pyg.loader.DataLoader(dataset, batch_size=256, shuffle=False)
+# i = 100
+
+print(dataset)
+# print(dataset.data.edge_index)
+# print(dataset.data.edge_index.shape)
+# print(dataset.data.x.shape)
+# print(dataset[i])
+# print(dataset[i].y)
+# print(dataset.get_idx_split())
+
+def convert_pyg_to_nx(data):
+    g = to_networkx(data, node_attrs=["x"], edge_attrs=["edge_attr"])
+    return nx.from_scipy_sparse_matrix(nx.adjacency_matrix(g, nodelist=list(range(data.x.size(0)))))
+
+N_graphs = 10
+sum_hyp = 0
+start = time.time()
+j = 0
+done_dict = set()
+while j < N_graphs:
+    ridx = random.randint(0, len(dataset))
+    if ridx not in done_dict:
+        graph = dataset[ridx]
+        adj = convert_pyg_to_nx(graph)
+        
+        hyp = hyperbolicity_sample(adj)
+        sum_hyp += hyp
+        
+        done_dict.add(ridx)
+        j += 1
+    
+end = time.time()    
+avg_hyp_zinc = sum_hyp / N_graphs    
+
+print ("Average hyp for PCQM4Mv2: ", avg_hyp_zinc)
+print ("Time taken", end - start)
