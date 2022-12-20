@@ -239,11 +239,11 @@ while j < N_graphs:
     ridx = random.randint(0, len(dataset))
     if ridx not in done_dict:
         graph = dataset[ridx]
-        if graph.x.size() > 5: # more than 4 nodes
+        if graph.x.size(0) > 5: # more than 4 nodes
             adj = convert_pyg_to_nx(graph)
             hyp = hyperbolicity_sample(adj)
             sum_hyp += hyp
-            
+
             done_dict.add(ridx)
             j += 1
     
