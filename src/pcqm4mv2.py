@@ -4,6 +4,7 @@ Modified from https://github.com/microsoft/Graphormer
 
 from torch_geometric.data import InMemoryDataset
 from torch_geometric.data import Data
+from torch_geometric.utils import to_dense_adj, to_networkx
 
 import os, logging, datetime, shutil, time, random
 import os.path as osp
