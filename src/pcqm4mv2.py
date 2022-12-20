@@ -2,20 +2,10 @@
 Modified from https://github.com/microsoft/Graphormer
 """
 
-import os
-import os.path as osp
-import shutil
-from ogb.utils import smiles2graph
-from ogb.utils.torch_util import replace_numpy_with_torchtensor
-from ogb.utils.url import decide_download, download_url, extract_zip
-import pandas as pd
-from tqdm import tqdm
-import torch
-
 from torch_geometric.data import InMemoryDataset
 from torch_geometric.data import Data
 
-import os, logging, datetime, shutil, time
+import os, logging, datetime, shutil, time, random
 import os.path as osp
 from ogb.utils import smiles2graph
 from ogb.utils.torch_util import replace_numpy_with_torchtensor
